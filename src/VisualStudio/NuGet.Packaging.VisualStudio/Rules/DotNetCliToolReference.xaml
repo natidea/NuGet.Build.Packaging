@@ -1,15 +1,14 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <!-- Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information. -->
 <Rule
-    Name="PackageReference"
+    Name="DotNetCliToolReference"
     DisplayName="Package"
     PageTemplate="generic"
-    Description="Package Properties"
+    Description="Package"
     xmlns="http://schemas.microsoft.com/build/2009/properties">
     
     <Rule.DataSource>
-        <DataSource Persistence="ProjectFile" ItemType="PackageReference" HasConfigurationCondition="False"
-                    SourceType="TargetResults" MSBuildTarget="CollectPackageReferences" SourceOfDefaultValue="AfterContext" />
+        <DataSource Persistence="ProjectFile" ItemType="DotNetCliToolReference" HasConfigurationCondition="False" SourceOfDefaultValue="AfterContext" />
     </Rule.DataSource>
     
     <StringProperty Name="Description" 
@@ -22,9 +21,6 @@
                     ReadOnly="True"
                     DisplayName="Version"
                     Description="Version of dependency.">
-        <StringProperty.DataSource>
-            <DataSource PersistenceStyle="Attribute" SourceOfDefaultValue="AfterContext" />
-        </StringProperty.DataSource>
     </StringProperty>
 
     <StringProperty Name="IncludeAssets" 
@@ -74,17 +70,4 @@
     <StringProperty Name="FrameworkVersion" 
                     Visible="False" 
                     ReadOnly="True" />
-
-    <StringProperty Name="IsImplicitlyDefined" 
-                    Visible="False" 
-                    ReadOnly="True" />
-
-    <StringProperty Name="NoWarn" 
-                    Visible="True"
-                    DisplayName="NoWarn"
-                    Description="Comma-delimited list of warnings that should be suppressed for this package" />
-
-    <BoolProperty Name="Visible"
-                  Visible="False"
-                  ReadOnly="True" />
 </Rule>

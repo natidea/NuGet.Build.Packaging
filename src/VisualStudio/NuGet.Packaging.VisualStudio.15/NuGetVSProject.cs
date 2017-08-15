@@ -13,7 +13,6 @@ using Merq;
 
 namespace NuGet.Packaging.VisualStudio
 {
-	[Export(Contracts.ProjectSystem_VSProject, typeof(VSProject))]
 	[AppliesTo(Constants.NuProjCapability)]
 	[ComVisible(true)]
 	[Order(1)] // This Project needs to be exported before the built-in (OAVSProject) provided by VS

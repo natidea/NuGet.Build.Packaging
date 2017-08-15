@@ -17,7 +17,6 @@ Copyright (c) .NET Foundation. All rights reserved.
     <ProjectSystemRulesDir Condition="'$(ProjectSystemRulesDir)' == ''">$(MSBuildThisFileDirectory)..\Rules\</ProjectSystemRulesDir>
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
     <!-- Inside Visual Studio, TF must be empty to bypass the CPS-based restore mechanism -->
-    <TargetFramework></TargetFramework>
     <PackageTargetFallback>net11;net20;net35;net40;net403;net45;net451;net452;net46;net461;net462;netcore;netcore45;netcore451;netcore50;win8;win81;win10;sl4;sl5;wp;wp7;wp75;wp8;wp81;wpa81;uap;uap10;netstandard1.0;netstandard1.1;netstandard1.2;netstandard1.3;netstandard1.4;netstandard1.5;netstandard1.6;netstandard2.0;netcoreapp1.0;netcoreapp2.0;monoandroid;monotouch;monomac;xamarinios;xamarinmac;xamarinpsthree;xamarinpsfour;xamarinpsvita;xamarinwatchos;xamarintvos;xamarinxboxthreesixty;xamarinxboxone</PackageTargetFallback>
   </PropertyGroup>
 
@@ -65,6 +64,20 @@ Copyright (c) .NET Foundation. All rights reserved.
     <PropertyPageSchema Include="$(ProjectSystemRulesDir)PackageReference.xaml">
       <Context>ProjectSubscriptionService;BrowseObject</Context>
     </PropertyPageSchema>
+		
+    <PropertyPageSchema Include="$(ProjectSystemRulesDir)ResolvedPackageReference.xaml">
+      <Context>ProjectSubscriptionService;BrowseObject</Context>
+    </PropertyPageSchema>
+
+    <!-- Tool references -->
+    <PropertyPageSchema Include="$(ProjectSystemRulesDir)DotNetCliToolReference.xaml">
+      <Context>ProjectSubscriptionService;BrowseObject</Context>
+    </PropertyPageSchema>
+
+    <!-- NuGet Restore Properties -->
+    <PropertyPageSchema Include="$(ProjectSystemRulesDir)NuGetRestore.xaml">
+      <Context>ProjectSubscriptionService</Context>
+    </PropertyPageSchema>
 
   </ItemGroup>
 
@@ -95,5 +108,16 @@ Copyright (c) .NET Foundation. All rights reserved.
     <ProjectCapability Include="ReferenceManagerProjects" />
 
   </ItemGroup>
+	
+  <!-- For a newly created project with no packages restored, Design time build complains that there is no ResolvePackageDependenciesDesignTime
+       target, that is available only after restoring the .Net Core SDK targets. This No-op target will satisfy the check and will get overriden
+       once the actual targets are available after package restore-->
+  <Target Name="ResolvePackageDependenciesDesignTime" />
+  <Target Name="CollectSDKReferencesDesignTime" />
+  <Target Name="CollectResolvedSDKReferencesDesignTime" />
+
+  <!-- This target is used to collect the PackageReferences in the project. This target can be overriden to add\remove packagereferences before they are
+       sent to NuGet to be restored.-->
+  <Target Name="CollectPackageReferences" Returns="@(PackageReference)" />
 
 </Project>
